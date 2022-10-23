@@ -12,7 +12,7 @@
 Доступное REST API:
 - GET localhost:80/all-price (Возвращает прайс-лист) JSON
 - GET localhost:80/service/{id}/material-details (Возвращает материальную детализацию сервиса) JSON
-- POST localhost:80/insert-product-to-service (Записывает продукт к услуге) JSON на вход с параметрами (Product, Service, Count):
+- POST localhost:80/insert-product-to-service (Записывает товар к услуге) JSON на вход с параметрами (Product, Service, Count):
 ``` 
 {
     "Product": 2,
