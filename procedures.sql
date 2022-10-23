@@ -44,3 +44,13 @@ VALUES ($1, $2, $3);
 $$;
 
 -- CALL insert_service_for_relise(3, 4, 2);
+
+CREATE PROCEDURE update_services_price(id_service integer, val numeric)
+    LANGUAGE SQL
+    AS $$
+UPDATE public.services
+SET basecost = val
+WHERE id = id_service;
+$$;
+
+-- CALL update_services_price(1, 20.0);
