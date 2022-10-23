@@ -54,3 +54,13 @@ WHERE id = id_service;
 $$;
 
 -- CALL update_services_price(1, 20.0);
+
+CREATE PROCEDURE update_product_price(id_product integer, val numeric)
+    LANGUAGE SQL
+    AS $$
+UPDATE public.products
+SET basecost = val
+WHERE id = id_product;
+$$;
+
+-- CALL update_product_price(1, 20.0);
