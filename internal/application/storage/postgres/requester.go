@@ -87,11 +87,45 @@ group by service_name;`
 	)
 	rows, err := s.pl.Query(ctx, query)
 	if err != nil {
-		return resultMap, fmt.Errorf("ошибка при запросе на получение блока по GUID'у %w", err)
+		return resultMap, fmt.Errorf("ошибка при выполнении запроса GetAll %w", err)
 	}
 	for rows.Next() {
 		// err = rows.Scan(&bufMap.Id, &bufMap.Name, &bufMap.ShortName)
 		err = rows.Scan(&buf.ServiceName, &buf.Price, &buf.ServicePrice, &buf.MaterialPrice)
+		if err != nil {
+			return resultMap, fmt.Errorf("error on scanning answers: %w", err)
+		}
+
+		resultMap = append(resultMap, buf)
+	}
+	return resultMap, nil
+}
+
+// GetMaterialByIdService метод возращающий материальный состав услуги из БД
+func (s *Storage) GetMaterialByIdService(ctx context.Context, id int) ([]models.MaterialToService, error) {
+	const query = `SELECT ps."name" as service_name,
+       pp."name" as product_name,
+       count_of_prod as count_prod,
+       pmu."short_name" as Measure,
+       pp.basecost as materialprice
+FROM public.prod_to_service
+         join public.products pp ON pp.id = prod_to_service.prod_id
+         join public.services ps ON ps.id = prod_to_service.service_id
+         join public.group_services pgs on pgs.id = ps.group_id
+         join public.measure_unit pmu on pmu.id = pp.measure_id
+where ps.id = $1
+;`
+	var (
+		buf       models.MaterialToService
+		resultMap []models.MaterialToService
+	)
+	rows, err := s.pl.Query(ctx, query, &id)
+	if err != nil {
+		return resultMap, fmt.Errorf("ошибка при выполнении запроса GetMaterialByIdService %w", err)
+	}
+	for rows.Next() {
+		// err = rows.Scan(&bufMap.Id, &bufMap.Name, &bufMap.ShortName)
+		err = rows.Scan(&buf.ServiceName, &buf.ProductName, &buf.CountProduct, &buf.MeasureUnit, &buf.MaterialPrice)
 		if err != nil {
 			return resultMap, fmt.Errorf("error on scanning answers: %w", err)
 		}

@@ -41,3 +41,11 @@ type Price struct {
 	ServiceName                        string
 	Price, ServicePrice, MaterialPrice float64
 }
+
+type MaterialToService struct {
+	ServiceName   string
+	ProductName   string
+	CountProduct  int
+	MeasureUnit   string
+	MaterialPrice float64
+}
