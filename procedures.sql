@@ -64,3 +64,4 @@ WHERE id = id_product;
 $$;
 
 -- CALL update_product_price(1, 20.0);
+
