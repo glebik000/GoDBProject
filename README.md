@@ -21,7 +21,7 @@
 }
 ```
 - PUT localhost:80/update-service-price (Обновляет стоимость работу услуги) На вход JSON (Id, Basecost)
-- PUT localhost:80/update-product-price (Обновляет стоимость продукта) На вход JSON (Id, Basecost)
+- PUT localhost:80/update-product-price (Обновляет стоимость товара) На вход JSON (Id, Basecost)
 ```
 {
   "Id": 1,
