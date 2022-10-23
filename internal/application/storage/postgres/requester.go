@@ -46,25 +46,25 @@ func (s *Storage) InsertGroupServices(ctx context.Context, services models.Group
 	}
 	return nil
 }
-func (s *Storage) InsertProduct(ctx context.Context, service int, product int, count int) error {
+func (s *Storage) InsertProduct(ctx context.Context, product models.Product) error {
 	const query = `CALL insert_service_for_relise($1, $2, $3)`
-	_, err := s.pl.Exec(ctx, query, &product, &service, &count)
+	_, err := s.pl.Exec(ctx, query, &product.Code, &product.Name, &product.MeasureUnit, &product.Basecost, &product.Hidden)
 	if err != nil {
 		return fmt.Errorf("ошибка в выполнении запроса к pg: %w", err)
 	}
 	return nil
 }
-func (s *Storage) InsertService(ctx context.Context, service int, product int, count int) error {
-	const query = `CALL insert_service_for_relise($1, $2, $3)`
-	_, err := s.pl.Exec(ctx, query, &product, &service, &count)
+func (s *Storage) InsertService(ctx context.Context, service models.Service) error {
+	const query = `CALL insert_services($1, $2, $3, $4, $5)`
+	_, err := s.pl.Exec(ctx, query, &service.Code, &service.Name, &service.GroupId, &service.Basecost, &service.Hidden)
 	if err != nil {
 		return fmt.Errorf("ошибка в выполнении запроса к pg: %w", err)
 	}
 	return nil
 }
-func (s *Storage) InsertMU(ctx context.Context, service int, product int, count int) error {
-	const query = `CALL insert_service_for_relise($1, $2, $3)`
-	_, err := s.pl.Exec(ctx, query, &product, &service, &count)
+func (s *Storage) InsertMU(ctx context.Context, unit models.MeasureUnit) error {
+	const query = `CALL insert_measure_unit($1, $2)`
+	_, err := s.pl.Exec(ctx, query, &unit.Name, &unit.ShortName)
 	if err != nil {
 		return fmt.Errorf("ошибка в выполнении запроса к pg: %w", err)
 	}
