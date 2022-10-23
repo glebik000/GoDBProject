@@ -134,3 +134,21 @@ where ps.id = $1
 	}
 	return resultMap, nil
 }
+
+func (s *Storage) UpdateProductPrice(ctx context.Context, productId int, price float64) error {
+	const query = `CALL update_product_price($1, $2)`
+	_, err := s.pl.Exec(ctx, query, &productId, &price)
+	if err != nil {
+		return fmt.Errorf("ошибка в выполнении запроса к pg {%d%f}: %w", productId, price, err)
+	}
+	return nil
+}
+
+func (s *Storage) UpdateServicePrice(ctx context.Context, serviceId int, price float64) error {
+	const query = `CALL update_services_price($1, $2)`
+	_, err := s.pl.Exec(ctx, query, &serviceId, &price)
+	if err != nil {
+		return fmt.Errorf("ошибка в выполнении запроса к pg {%d%f}: %w", serviceId, price, err)
+	}
+	return nil
+}
