@@ -82,6 +82,8 @@ func InsertProductToService(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println(testStruct)
 
+	a, b, c = testStruct.Product, testStruct.Service, testStruct.Count
+
 	err = pools.InsertPTS(context.TODO(), a, b, c)
 	if err != nil {
 		fmt.Printf("error IN REQUEST %v", err)

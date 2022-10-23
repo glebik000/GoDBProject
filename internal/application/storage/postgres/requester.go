@@ -29,11 +29,11 @@ func (s *Storage) Close() {
 	s.pl.Close()
 }
 
-func (s *Storage) InsertPTS(ctx context.Context, service int, product int, count int) error {
+func (s *Storage) InsertPTS(ctx context.Context, product int, service int, count int) error {
 	const query = `CALL insert_service_for_relise($1, $2, $3)`
 	_, err := s.pl.Exec(ctx, query, &product, &service, &count)
 	if err != nil {
-		return fmt.Errorf("ошибка в выполнении запроса к pg: %w", err)
+		return fmt.Errorf("ошибка в выполнении запроса к pg {%d%d%d}: %w", product, service, count, err)
 	}
 	return nil
 }
@@ -74,13 +74,13 @@ func (s *Storage) InsertMU(ctx context.Context, unit models.MeasureUnit) error {
 // GetAll метод возращающий прайс листы из БД
 func (s *Storage) GetAll(ctx context.Context) ([]models.Price, error) {
 	const query = `SELECT ps."name" as service_name,
-       sum(count_of_prod*pp.basecost+ps.basecost) as price,
-       sum(ps.basecost) as serviceprice,
-       sum(pp.basecost) as materialprice
+       sum(count_of_prod*pp.basecost)+ps.basecost as price,
+       ps.basecost as serviceprice,
+       sum(count_of_prod*pp.basecost) as materialprice
 FROM public.prod_to_service
          join public.products pp ON pp.id = prod_to_service.prod_id
          join public.services ps ON ps.id = prod_to_service.service_id
-group by service_name;`
+group by service_name, ps.basecost;`
 	var (
 		buf       models.Price
 		resultMap []models.Price
