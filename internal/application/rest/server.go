@@ -27,7 +27,7 @@ func RunServer() {
 func setHandler(r *mux.Router) error {
 	r.HandleFunc("/all-price", handlers.GetAllData).Methods("GET")
 	r.HandleFunc("/service/{id}/material-details", handlers.GetAllDataBy).Methods("GET")
-	r.HandleFunc("/insert-product-to-service", handlers.InsertProductToService).Methods("GET")
+	r.HandleFunc("/insert-product-to-service", handlers.InsertProductToService).Methods("POST")
 	r.HandleFunc("/update-product-price", handlers.UpdateProductPrice).Methods("PUT")
 	r.HandleFunc("/update-service-price", handlers.UpdateServicePrice).Methods("PUT")
 	return nil
