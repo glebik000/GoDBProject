@@ -36,3 +36,8 @@ type Attacher struct {
 	Service int
 	Count   int
 }
+
+type Price struct {
+	ServiceName                        string
+	Price, ServicePrice, MaterialPrice float64
+}

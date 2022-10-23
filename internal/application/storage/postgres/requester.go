@@ -71,23 +71,32 @@ func (s *Storage) InsertMU(ctx context.Context, unit models.MeasureUnit) error {
 	return nil
 }
 
-func (s *Storage) GetAll(ctx context.Context) ([]models.MeasureUnit, error) {
-	const query = `SELECT id, name, short_name
-	FROM public.measure_unit`
+// GetAll метод возращающий прайс листы из БД
+func (s *Storage) GetAll(ctx context.Context) ([]models.Price, error) {
+	const query = `SELECT ps."name" as service_name,
+       sum(count_of_prod*pp.basecost+ps.basecost) as price,
+       sum(ps.basecost) as serviceprice,
+       sum(pp.basecost) as materialprice
+FROM public.prod_to_service
+         join public.products pp ON pp.id = prod_to_service.prod_id
+         join public.services ps ON ps.id = prod_to_service.service_id
+group by service_name;`
 	var (
-		resultMap []models.MeasureUnit
-		bufMap    models.MeasureUnit
+		buf       models.Price
+		resultMap []models.Price
 	)
 	rows, err := s.pl.Query(ctx, query)
 	if err != nil {
 		return resultMap, fmt.Errorf("ошибка при запросе на получение блока по GUID'у %w", err)
 	}
 	for rows.Next() {
-		err = rows.Scan(&bufMap.Id, &bufMap.Name, &bufMap.ShortName)
+		// err = rows.Scan(&bufMap.Id, &bufMap.Name, &bufMap.ShortName)
+		err = rows.Scan(&buf.ServiceName, &buf.Price, &buf.ServicePrice, &buf.MaterialPrice)
 		if err != nil {
 			return resultMap, fmt.Errorf("error on scanning answers: %w", err)
 		}
-		resultMap = append(resultMap, bufMap)
+
+		resultMap = append(resultMap, buf)
 	}
 	return resultMap, nil
 }
