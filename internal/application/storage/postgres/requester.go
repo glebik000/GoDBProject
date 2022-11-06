@@ -106,13 +106,13 @@ func (s *Storage) GetMaterialByIdService(ctx context.Context, id int) ([]models.
 	const query = `SELECT ps."name" as service_name,
        pp."name" as product_name,
        count_of_prod as count_prod,
-       pmu."short_name" as Measure,
+		(select mu."short_name" from public.measure_unit as mu where mu.id = pp.measure_id) as Measure,
        pp.basecost as materialprice
 FROM public.prod_to_service
          join public.products pp ON pp.id = prod_to_service.prod_id
          join public.services ps ON ps.id = prod_to_service.service_id
-         join public.group_services pgs on pgs.id = ps.group_id
-         join public.measure_unit pmu on pmu.id = pp.measure_id
+--          join public.group_services pgs on pgs.id = ps.group_id
+--          join public.measure_unit pmu on pmu.id = pp.measure_id
 where ps.id = $1
 ;`
 	var (
