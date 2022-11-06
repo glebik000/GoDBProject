@@ -80,6 +80,7 @@ func (s *Storage) GetAll(ctx context.Context) ([]models.Price, error) {
 FROM public.prod_to_service
          join public.products pp ON pp.id = prod_to_service.prod_id
          join public.services ps ON ps.id = prod_to_service.service_id
+where ps.hidden = false
 group by service_name, ps.basecost;`
 	var (
 		buf       models.Price
