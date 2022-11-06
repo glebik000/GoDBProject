@@ -65,3 +65,40 @@ $$;
 
 -- CALL update_product_price(1, 20.0);
 
+
+-- PROCEDURE: public.update_product_hidden(integer, boolean)
+
+-- DROP PROCEDURE IF EXISTS public.update_product_hidden(integer, boolean);
+
+CREATE OR REPLACE PROCEDURE public.update_product_hidden(
+	IN id_current integer,
+	IN val boolean)
+LANGUAGE 'sql'
+AS $BODY$
+UPDATE public.products
+SET hidden = val
+WHERE id = id_current;
+$BODY$;
+ALTER PROCEDURE public.update_product_hidden(integer, boolean)
+    OWNER TO postgres;
+
+-- CALL update_product_hidden(1, true);
+
+
+-- PROCEDURE: public.update_service_hidden(integer, boolean)
+
+-- DROP PROCEDURE IF EXISTS public.update_service_hidden(integer, boolean);
+
+CREATE OR REPLACE PROCEDURE public.update_service_hidden(
+	IN id_current integer,
+	IN val boolean)
+LANGUAGE 'sql'
+AS $BODY$
+UPDATE public.services
+SET hidden = val
+WHERE id = id_current;
+$BODY$;
+ALTER PROCEDURE public.update_service_hidden(integer, boolean)
+    OWNER TO postgres;
+
+-- CALL update_service_hidden(1, true);
