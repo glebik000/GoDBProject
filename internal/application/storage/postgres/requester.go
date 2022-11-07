@@ -143,7 +143,7 @@ func (s *Storage) UpdateProductPrice(ctx context.Context, productId int, price f
 	const query = `CALL update_product_price($1, $2)`
 	_, err := s.pl.Exec(ctx, query, &productId, &price)
 	if err != nil {
-		return fmt.Errorf("ошибка в выполнении запроса к pg {%d%f}: %w", productId, price, err)
+		return fmt.Errorf("выполнение запроса к pg {%d%f}: %w", productId, price, err)
 	}
 	return nil
 }
@@ -152,7 +152,7 @@ func (s *Storage) UpdateServicePrice(ctx context.Context, serviceId int, price f
 	const query = `CALL update_services_price($1, $2)`
 	_, err := s.pl.Exec(ctx, query, &serviceId, &price)
 	if err != nil {
-		return fmt.Errorf("ошибка в выполнении запроса к pg {%d%f}: %w", serviceId, price, err)
+		return fmt.Errorf("выполнение запроса к pg {%d%f}: %w", serviceId, price, err)
 	}
 	return nil
 }
@@ -161,7 +161,7 @@ func (s *Storage) UpdateProductHidden(ctx context.Context, productId int, hidden
 	const query = `CALL update_product_hidden($1, $2)`
 	_, err := s.pl.Exec(ctx, query, &productId, &hidden)
 	if err != nil {
-		return fmt.Errorf("ошибка в выполнении запроса к pg {%d%t}: %w", productId, hidden, err)
+		return fmt.Errorf("выполнение запроса к pg {%d%t}: %w", productId, hidden, err)
 	}
 	return nil
 }
@@ -170,7 +170,16 @@ func (s *Storage) UpdateServiceHidden(ctx context.Context, serviceId int, hidden
 	const query = `CALL update_service_hidden($1, $2)`
 	_, err := s.pl.Exec(ctx, query, &serviceId, &hidden)
 	if err != nil {
-		return fmt.Errorf("ошибка в выполнении запроса к pg {%d%t}: %w", serviceId, hidden, err)
+		return fmt.Errorf("выполнение запроса к pg {%d%t}: %w", serviceId, hidden, err)
+	}
+	return nil
+}
+
+func (s *Storage) UpdateServiceGroupHidden(ctx context.Context, serviceGroupId int, hidden bool) error {
+	const query = `CALL update_service_group_hidden($1, $2)`
+	_, err := s.pl.Exec(ctx, query, &serviceGroupId, &hidden)
+	if err != nil {
+		return fmt.Errorf("выполнение запроса к pg {%d%t}: %w", serviceGroupId, hidden, err)
 	}
 	return nil
 }

@@ -4,7 +4,7 @@ type GroupServices struct {
 	Id     int
 	Code   string
 	Name   string
-	Hidden string
+	Hidden bool
 }
 
 type MeasureUnit struct {
