@@ -149,3 +149,63 @@ func UpdateServicePrice(w http.ResponseWriter, r *http.Request) {
 		fmt.Printf("ошибка при ENCODE JSON %v", err)
 	}
 }
+
+func UpdateServiceHidden(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	pgPoolConf := config.GetConfig()
+	pools, err := postgres.NewStorage(pgPoolConf)
+	if err != nil {
+		fmt.Printf("error IN HANDLE %v", err)
+		return
+	}
+	var (
+		a          int
+		b          bool
+		testStruct models.Service
+	)
+	err = json.NewDecoder(r.Body).Decode(&testStruct)
+	if err != nil {
+		fmt.Printf("error IN DECODE %v", err)
+		return
+	}
+	a, b = testStruct.Id, testStruct.Hidden
+	err = pools.UpdateServiceHidden(context.TODO(), a, b)
+	if err != nil {
+		fmt.Printf("error IN REQUEST %v", err)
+		return
+	}
+	err = json.NewEncoder(w).Encode(err)
+	if err != nil {
+		fmt.Printf("ошибка при ENCODE JSON %v", err)
+	}
+}
+
+func UpdateProductHidden(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	pgPoolConf := config.GetConfig()
+	pools, err := postgres.NewStorage(pgPoolConf)
+	if err != nil {
+		fmt.Printf("error IN HANDLE %v", err)
+		return
+	}
+	var (
+		a          int
+		b          bool
+		testStruct models.Product
+	)
+	err = json.NewDecoder(r.Body).Decode(&testStruct)
+	if err != nil {
+		fmt.Printf("error IN DECODE %v", err)
+		return
+	}
+	a, b = testStruct.Id, testStruct.Hidden
+	err = pools.UpdateProductHidden(context.TODO(), a, b)
+	if err != nil {
+		fmt.Printf("error IN REQUEST %v", err)
+		return
+	}
+	err = json.NewEncoder(w).Encode(err)
+	if err != nil {
+		fmt.Printf("ошибка при ENCODE JSON %v", err)
+	}
+}

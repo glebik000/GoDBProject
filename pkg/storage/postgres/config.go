@@ -39,8 +39,7 @@ func (c Config) DSN() string {
 func (c Config) Pool() (*pgxpool.Pool, error) {
 	conf, err := pgxpool.ParseConfig(c.DSN())
 	if err != nil {
-		err = fmt.Errorf("создание пула содинений: парсинг конфига: %v", err)
-		return nil, err
+		return nil, fmt.Errorf("создание пула содинений: парсинг конфига: %w", err)
 	}
 
 	conf.MaxConns = int32(c.PoolConnectionCount)

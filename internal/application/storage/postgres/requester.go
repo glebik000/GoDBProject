@@ -46,6 +46,7 @@ func (s *Storage) InsertGroupServices(ctx context.Context, services models.Group
 	}
 	return nil
 }
+
 func (s *Storage) InsertProduct(ctx context.Context, product models.Product) error {
 	const query = `CALL insert_service_for_relise($1, $2, $3)`
 	_, err := s.pl.Exec(ctx, query, &product.Code, &product.Name, &product.MeasureUnit, &product.Basecost, &product.Hidden)
@@ -54,6 +55,7 @@ func (s *Storage) InsertProduct(ctx context.Context, product models.Product) err
 	}
 	return nil
 }
+
 func (s *Storage) InsertService(ctx context.Context, service models.Service) error {
 	const query = `CALL insert_services($1, $2, $3, $4, $5)`
 	_, err := s.pl.Exec(ctx, query, &service.Code, &service.Name, &service.GroupId, &service.Basecost, &service.Hidden)
@@ -62,6 +64,7 @@ func (s *Storage) InsertService(ctx context.Context, service models.Service) err
 	}
 	return nil
 }
+
 func (s *Storage) InsertMU(ctx context.Context, unit models.MeasureUnit) error {
 	const query = `CALL insert_measure_unit($1, $2)`
 	_, err := s.pl.Exec(ctx, query, &unit.Name, &unit.ShortName)
@@ -150,6 +153,24 @@ func (s *Storage) UpdateServicePrice(ctx context.Context, serviceId int, price f
 	_, err := s.pl.Exec(ctx, query, &serviceId, &price)
 	if err != nil {
 		return fmt.Errorf("ошибка в выполнении запроса к pg {%d%f}: %w", serviceId, price, err)
+	}
+	return nil
+}
+
+func (s *Storage) UpdateProductHidden(ctx context.Context, productId int, hidden bool) error {
+	const query = `CALL update_product_hidden($1, $2)`
+	_, err := s.pl.Exec(ctx, query, &productId, &hidden)
+	if err != nil {
+		return fmt.Errorf("ошибка в выполнении запроса к pg {%d%t}: %w", productId, hidden, err)
+	}
+	return nil
+}
+
+func (s *Storage) UpdateServiceHidden(ctx context.Context, serviceId int, hidden bool) error {
+	const query = `CALL update_service_hidden($1, $2)`
+	_, err := s.pl.Exec(ctx, query, &serviceId, &hidden)
+	if err != nil {
+		return fmt.Errorf("ошибка в выполнении запроса к pg {%d%t}: %w", serviceId, hidden, err)
 	}
 	return nil
 }

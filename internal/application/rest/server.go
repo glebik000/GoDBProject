@@ -30,5 +30,7 @@ func setHandler(r *mux.Router) error {
 	r.HandleFunc("/insert-product-to-service", handlers.InsertProductToService).Methods("POST")
 	r.HandleFunc("/update-product-price", handlers.UpdateProductPrice).Methods("PUT")
 	r.HandleFunc("/update-service-price", handlers.UpdateServicePrice).Methods("PUT")
+	r.HandleFunc("/update-product-hidden", handlers.UpdateProductHidden).Methods("PUT") // FIXME: исправить хэндлер
+	r.HandleFunc("/update-service-hidden", handlers.UpdateServiceHidden).Methods("PUT") // FIXME: исправить хэндлер
 	return nil
 }

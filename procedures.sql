@@ -102,3 +102,20 @@ ALTER PROCEDURE public.update_service_hidden(integer, boolean)
     OWNER TO postgres;
 
 -- CALL update_service_hidden(1, true);
+
+
+-- PROCEDURE: public.update_service_group_hidden(integer, boolean)
+
+-- DROP PROCEDURE IF EXISTS public.update_service_group_hidden(integer, boolean);
+
+CREATE OR REPLACE PROCEDURE public.update_service_group_hidden(
+	IN id_current integer,
+	IN val boolean)
+LANGUAGE 'sql'
+AS $BODY$
+UPDATE public.group_services
+SET hidden=val
+WHERE id=id_current;
+$BODY$;
+ALTER PROCEDURE public.update_service_group_hidden(integer, boolean)
+    OWNER TO postgres;
