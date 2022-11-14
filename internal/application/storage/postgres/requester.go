@@ -183,3 +183,12 @@ func (s *Storage) UpdateServiceGroupHidden(ctx context.Context, serviceGroupId i
 	}
 	return nil
 }
+
+func (s *Storage) DeleteService(ctx context.Context, serviceId int) error {
+	const query = `DELETE FROM public.services WHERE id=$1;`
+	_, err := s.pl.Exec(ctx, query, &serviceId)
+	if err != nil {
+		return fmt.Errorf("выполнение запроса к pg {%d}: %w", serviceId, err)
+	}
+	return nil
+}

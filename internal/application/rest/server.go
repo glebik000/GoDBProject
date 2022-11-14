@@ -33,5 +33,6 @@ func setHandler(r *mux.Router) error {
 	r.HandleFunc("/update-product-hidden", handlers.UpdateProductHidden).Methods("PUT")
 	r.HandleFunc("/update-service-hidden", handlers.UpdateServiceHidden).Methods("PUT")
 	r.HandleFunc("/update-service-group-hidden", handlers.UpdateServiceGroupHidden).Methods("PUT")
+	r.HandleFunc("/service", handlers.DeleteService).Methods("DELETE")
 	return nil
 }
