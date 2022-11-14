@@ -28,3 +28,18 @@
   "Basecost": 142.20
 }
 ```
+- PUT localhost:80/update-service-hidden (Обновляет стоимость товара) На вход JSON (Id, Hidden)
+- PUT localhost:80/update-product-hidden (Обновляет стоимость товара) На вход JSON (Id, Hidden)
+- PUT localhost:80/update-service-group-hidden (Обновляет стоимость товара) На вход JSON (Id, Hidden)
+```
+{
+  "Id": 1,
+  "Hidden": true
+}
+```
+- DELETE localhost:80/service (Обновляет стоимость товара) На вход JSON (Id)
+```
+{
+  "Id": 1,
+}
+```
