@@ -11,6 +11,24 @@
 ## Документация
 Доступное REST API:
 - GET localhost:80/all-price (Возвращает прайс-лист) JSON
+
+*Пример ответа*
+```
+[
+    {
+        "ServiceName": "Динамическое наблюдение",
+        "Price": 1288.8,
+        "ServicePrice": 20,
+        "MaterialPrice": 1268.8
+    },
+    {
+        "ServiceName": "Ещё один пример услуги",
+        "Price": 9750.4,
+        "ServicePrice": 2455,
+        "MaterialPrice": 7295.4
+    }
+]
+```
 - GET localhost:80/service/{id}/material-details (Возвращает материальную детализацию сервиса) JSON
 - POST localhost:80/insert-product-to-service (Записывает товар к услуге) JSON на вход с параметрами (Product, Service, Count):
 ``` 

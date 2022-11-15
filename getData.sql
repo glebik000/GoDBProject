@@ -6,7 +6,21 @@ SELECT ps."name" as service_name,
 FROM public.prod_to_service
          join public.products pp ON pp.id = prod_to_service.prod_id
          join public.services ps ON ps.id = prod_to_service.service_id
+where ps.hidden = false
 group by service_name, ps.basecost;
+
+-- SELECT ps."name" as service_name,
+--        sum(count_of_prod*pp.basecost)+ps.basecost as price,
+--        ps.basecost as serviceprice,
+--        sum(count_of_prod*pp.basecost) as materialprice
+-- FROM public.prod_to_service pts,
+--   public.services ps,
+--   public.products pp,
+-- where pts.prod_id = pp.id
+--   and pts.service_id = ps.id
+--   and ps.hidden = false
+--   ;
+
 
 -- Получение материального состава услуги
 SELECT ps."name" as service_name,
