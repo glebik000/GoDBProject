@@ -8,6 +8,7 @@ FROM public.prod_to_service
          join public.services ps ON ps.id = prod_to_service.service_id
 where ps.hidden = false
 group by service_name, ps.basecost;
+-- 	Query complete 00:00:00.055
 
 -- SELECT ps."name" as service_name,
 --        sum(count_of_prod*pp.basecost)+ps.basecost as price,
@@ -18,8 +19,8 @@ group by service_name, ps.basecost;
 --   public.products pp,
 -- where pts.prod_id = pp.id
 --   and pts.service_id = ps.id
---   and ps.hidden = false
---   ;
+--   and ps.hidden = false;
+--   Query complete 00:00:00.052
 
 
 -- Получение материального состава услуги
