@@ -6,7 +6,7 @@ import (
 
 func GetConfig() postgres.Config {
 	return postgres.Config{
-		Host:                     "localhost",
+		Host:                     "127.0.0.1",
 		Port:                     uint16(5433),
 		User:                     "postgres",
 		Password:                 pgPass,
